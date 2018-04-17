@@ -1,0 +1,38 @@
+/* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+
+#map {
+    position: absolute;
+    height: 50%;
+    width: 50%;
+    left: 25%;
+    top: 25%;
+    margin: 0;
+}
+
+#take_me_to_russia{
+    position: absolute;
+    height: 5%;
+    width: 10%;
+    left: 45%;
+    bottom: 20%;
+    margin: 0;
+}
+
+#find_parking{
+    position: absolute;
+    height: 5%;
+    width: 10%;
+    left: 55%;
+    bottom: 20%;
+    margin: 0;
+}
+
+/* Optional: Makes the sample page fill the window. */
+
+html, body {
+    position: relative;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
