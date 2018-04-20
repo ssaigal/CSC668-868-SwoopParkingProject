@@ -8,14 +8,16 @@ import java.sql.Statement;
 public class SQLRequestSender {
 	
 	public String executeSQL(String sql, Connection con) {
-		 try {
+		boolean user_added = false; 
+		try {
 			Statement stmt = con.createStatement();
 			int result = stmt.executeUpdate(sql);
-	        return "Statement was executed successfully. " + result + " row(s) were affected.";
+	        if(result > 0)
+	        	user_added = true;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return "Something went wrong: " + e;
 		}
+		return "{user_added: '" + user_added + "'}";
 	 }
 	 
 	 public ResultSet fetchRows(String sql, Connection con) {

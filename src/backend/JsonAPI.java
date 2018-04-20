@@ -33,13 +33,13 @@ public class JsonAPI {
 	}
 
 	private String processRegistrationRequest(JSONObject jsonObject, Connection con) {
-		String sql = "INSERT INTO users (username,passwrd) VALUES ('" + jsonObject.getString("username") + "','" + jsonObject.getString("passwrd") + "')";
+		String sql = "INSERT INTO users (username,password) VALUES ('" + jsonObject.getString("username") + "','" + jsonObject.getString("password") + "')";
 		return srs.executeSQL(sql,con);
 	}
 
 
 	private String processLoginRequest(JSONObject jsonObject,Connection con) {
-		String sql = "SELECT passwrd FROM users WHERE username = '" + jsonObject.getString("username") + "'";
+		String sql = "SELECT password FROM users WHERE username = '" + jsonObject.getString("username") + "'";
 		ResultSet result = srs.fetchRows(sql,con);
 		boolean userExists = false;
 		boolean passwdMatches = false;
@@ -48,7 +48,7 @@ public class JsonAPI {
 		try {
 			if(result.next()) {
 				userExists = true;
-				passwdMatches = result.getString("passwrd").equals(jsonObject.getString("passwrd"));
+				passwdMatches = result.getString("password").equals(jsonObject.getString("password"));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
