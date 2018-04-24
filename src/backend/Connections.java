@@ -10,7 +10,7 @@ import java.sql.Connection;
 //import org.json.*;
 
 public class Connections {
-	private final String url = "jdbc:postgresql://localhost/swoop";
+	private final String url = "jdbc:postgresql://localhost/swoop?currentSchema=swoop";
 	private final String user = "postgres";
 	private final String password = "Kortstokk1";
 	

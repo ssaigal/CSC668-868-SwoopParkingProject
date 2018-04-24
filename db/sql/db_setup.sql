@@ -8,10 +8,31 @@ CREATE SCHEMA  swoop;
 -- -----------------------------------------------------
 CREATE TABLE swoop.users (
   user_id SERIAL NOT NULL PRIMARY KEY UNIQUE, 
-  user_name VARCHAR(45) NOT NULL,
-  email VARCHAR(45) NOT NULL,
-  passwrd VARCHAR(100) NOT NULL);
+  username VARCHAR(45) NOT NULL,
+  password VARCHAR(100) NOT NULL);
 
+  -- -----------------------------------------------------
+-- Table swoop.locations
+-- -----------------------------------------------------
+CREATE TABLE swoop.locations (
+  location_id SERIAL NOT NULL PRIMARY KEY UNIQUE,
+  latitude INT NOT NULL,
+  longitude INT NOT NULL);
+
+ -- -----------------------------------------------------
+-- Table swoop.requests
+-- -----------------------------------------------------
+CREATE TABLE swoop.requests (
+  request_id SERIAL NOT NULL PRIMARY KEY UNIQUE,
+  user_id INT NOT NULL,
+  request_type VARCHAR(45) NOT NULL,
+  radius INT,
+  location int NOT NULL,
+  destination int, 
+  FOREIGN KEY (user_id) REFERENCES swoop.users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (location) REFERENCES swoop.locations (location_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (destination) REFERENCES swoop.locations (location_id) ON DELETE CASCADE ON UPDATE CASCADE);
+ 
 
 -- -----------------------------------------------------
 -- Table swoop.user_ratings
@@ -26,27 +47,7 @@ CREATE TABLE swoop.user_ratings (
   FOREIGN KEY (request_id) REFERENCES swoop.requests (request_id) ON DELETE CASCADE ON UPDATE CASCADE);
 
 
--- -----------------------------------------------------
--- Table swoop.requests
--- -----------------------------------------------------
-CREATE TABLE swoop.requests (
-  request_id SERIAL NOT NULL PRIMARY KEY UNIQUE,
-  user_id INT NOT NULL,
-  request_type VARCHAR(45) NOT NULL,
-  radius INT,
-  location int NOT NULL,
-  destination int, 
-  FOREIGN KEY (user_id) REFERENCES swoop.users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (location) REFERENCES swoop.locations (location_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (destination) REFERENCES swoop.locations (location_id) ON DELETE CASCADE ON UPDATE CASCADE);
-  
-  -- -----------------------------------------------------
--- Table swoop.locations
--- -----------------------------------------------------
-CREATE TABLE swoop.requests (
-  location_id SERIAL NOT NULL PRIMARY KEY UNIQUE,
-  latitude INT NOT NULL,
-  longitude INT NOT NULL;
+ 
 
 -- -----------------------------------------------------
 -- Table uno.cards

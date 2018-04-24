@@ -87,7 +87,7 @@ public class JsonAPI {
 
 
 	private String processRegistrationRequest(JSONObject jsonObject, Connection con) {
-		String sql = "INSERT INTO users (username,password) VALUES ('" + jsonObject.getString("username") + "','" + jsonObject.getString("password") + "') RETURN user_id";
+		String sql = "INSERT INTO users (username,password) VALUES ('" + jsonObject.getString("username") + "','" + jsonObject.getString("password") + "') RETURNING user_id";
 		int user_id = srs.executeSQL(sql,con);
 		if(user_id != 0) {
 			return "{user_added: true, user_id: " + user_id + "}";
