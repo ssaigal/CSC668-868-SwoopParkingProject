@@ -32,12 +32,21 @@ CREATE TABLE swoop.user_ratings (
 CREATE TABLE swoop.requests (
   request_id SERIAL NOT NULL PRIMARY KEY UNIQUE,
   user_id INT NOT NULL,
-  seat_num INT NOT NULL,
   request_type VARCHAR(45) NOT NULL,
-  user_location VARCHAR(45) NOT NULL,
-  destination VARCHAR(45) NOT NULL,
-  radius INT, 
-  FOREIGN KEY (user_id) REFERENCES swoop.users (user_id) ON DELETE CASCADE ON UPDATE CASCADE);
+  radius INT,
+  location int NOT NULL,
+  destination int, 
+  FOREIGN KEY (user_id) REFERENCES swoop.users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (location) REFERENCES swoop.locations (location_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (destination) REFERENCES swoop.locations (location_id) ON DELETE CASCADE ON UPDATE CASCADE);
+  
+  -- -----------------------------------------------------
+-- Table swoop.locations
+-- -----------------------------------------------------
+CREATE TABLE swoop.requests (
+  location_id SERIAL NOT NULL PRIMARY KEY UNIQUE,
+  latitude INT NOT NULL,
+  longitude INT NOT NULL;
 
 -- -----------------------------------------------------
 -- Table uno.cards

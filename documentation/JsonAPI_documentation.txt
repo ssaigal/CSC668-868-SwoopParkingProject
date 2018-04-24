@@ -7,20 +7,59 @@ The method 'public String reciveAndRespond(String json)' accepts requests format
 - Key names must be as specified bellow
 
 
-Currently supported requests are outlined bellow
+Currently supported requests and their corresponding responses are outlined bellow:  
 
-##Login##
+####Login####
 
+##Request
 {
  request_code: 0,
  username: 'string value',
  password: 'string value'
 }
 
-##Registration##
+##Response
+{
+ user_exists: boolean, 
+ password_matches: boolean
+}
 
+
+####Registration####
+
+##Request
 {
  request_code: 1,
  username: 'string value',
  password: 'string value'
+}
+
+##Response
+{
+ user_added: boolean
+}
+
+
+####Pick-up request####
+
+##Request
+{
+ request_code: 2,
+ user_id: int value,
+ request_type: 0, /* request_type is different from request_code and refers to wether or not the user is looking for a pick up or a parking spot*/
+ radius: int value,
+ position: {
+            latitude: int value
+            longitude: int value
+           },           
+destination: {
+            latitude: int value
+            longitude: int value
+           }
+}
+
+##Response
+{
+ request_added: boolean, 
+ request_id: int value
 }

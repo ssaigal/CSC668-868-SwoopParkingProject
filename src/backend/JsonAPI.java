@@ -27,14 +27,73 @@ public class JsonAPI {
 			return processLoginRequest(jsonObject,con);
 		case 1:
 			return processRegistrationRequest(jsonObject,con);
+		case 2:
+			return processAddPickUpRequest(jsonObject,con);
+		case 3:
+			return processViewPickUpRequests(jsonObject,con);
 		default:
 			return "Request code not recognized. Unable to process request";
 		}
 	}
 
+	private String processViewPickUpRequests(JSONObject jsonObject, Connection con) {
+		String sql = "SELECT * FROM locations";
+		return null;
+	}
+
+
+	private String processAddPickUpRequest(JSONObject jsonObject, Connection con) {
+		JSONObject position = new JSONObject(jsonObject.getString("position"));
+		JSONObject destination = new JSONObject(jsonObject.getString("destination"));
+		
+		
+		String sql1 = "INSERT INTO locations (latitude, longitude) VALUES (" + position.getInt("latitude") + ", " + position.getInt("longitude") + ") RETURNING  location_id";
+		String sql2 = "INSERT INTO locations (latitude, longitude) VALUES (" + destination.getInt("latitude") + ", " + destination.getInt("longitude") + ") RETURNING  location_id";
+		
+		int position_id = 0;
+		int destination_id = 0;
+		int request_id = 0;
+		
+		String sql3 = "";
+		
+		try {
+			con.setAutoCommit(false);
+			position_id = srs.executeSQL(sql1,con);
+			destination_id = srs.executeSQL(sql2,con);
+			sql3 = "INSERT INTO requests (user_id, request_type, radius, position, destination) VALUES (" + jsonObject.getInt("user_id") 
+			+ ", " + jsonObject.getInt("request_type") + ", " + jsonObject.getInt("radius") + ",  " + position_id + ", " + destination_id + ") RETURNING request_id";
+			if(position_id != 0 && destination_id != 0) {
+				request_id = srs.executeSQL(sql3,con);
+			}else{
+				con.rollback();
+			}
+			
+			if(request_id != 0) {
+				
+				con.commit();
+			}else {
+				con.rollback();
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		if(position_id != 0 && destination_id != 0 && request_id != 0) {
+			return "{request_added: 'true', request_id: " + request_id + "}";
+		}else {
+			return "{request_added: 'false', request_id: " + request_id + "}}";
+		}		
+	}
+
+
 	private String processRegistrationRequest(JSONObject jsonObject, Connection con) {
-		String sql = "INSERT INTO users (username,password) VALUES ('" + jsonObject.getString("username") + "','" + jsonObject.getString("password") + "')";
-		return srs.executeSQL(sql,con);
+		String sql = "INSERT INTO users (username,password) VALUES ('" + jsonObject.getString("username") + "','" + jsonObject.getString("password") + "') RETURN user_id";
+		int user_id = srs.executeSQL(sql,con);
+		if(user_id != 0) {
+			return "{user_added: true, user_id: " + user_id + "}";
+		}else{
+			return "{user_added: false, user_id: " + user_id + "}";
+		}
 	}
 
 
