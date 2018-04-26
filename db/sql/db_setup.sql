@@ -16,8 +16,8 @@ CREATE TABLE swoop.users (
 -- -----------------------------------------------------
 CREATE TABLE swoop.locations (
   location_id SERIAL NOT NULL PRIMARY KEY UNIQUE,
-  latitude INT NOT NULL,
-  longitude INT NOT NULL);
+  latitude double precision NOT NULL,
+  longitude double precision NULL);
 
  -- -----------------------------------------------------
 -- Table swoop.requests
@@ -27,10 +27,11 @@ CREATE TABLE swoop.requests (
   user_id INT NOT NULL,
   request_type VARCHAR(45) NOT NULL,
   radius INT,
-  location int NOT NULL,
+  time BIGINT,
+  position int NOT NULL,
   destination int, 
   FOREIGN KEY (user_id) REFERENCES swoop.users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (location) REFERENCES swoop.locations (location_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (position) REFERENCES swoop.locations (location_id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (destination) REFERENCES swoop.locations (location_id) ON DELETE CASCADE ON UPDATE CASCADE);
  
 
@@ -50,14 +51,14 @@ CREATE TABLE swoop.user_ratings (
  
 
 -- -----------------------------------------------------
--- Table uno.cards
+-- Table swoop.transactions
 -- -----------------------------------------------------
 CREATE TABLE swoop.transactions (
   request_id1  INT NOT NULL,
   request_id2 INT NOT NULL, 
   status INT NOT NULL,
-  start_time TIMESTAMP(6) NULL,
-  end_time TIMESTAMP(6) NULL,
+  start_time TIMESTAMP(6),
+  end_time TIMESTAMP(6),
   PRIMARY KEY (request_id1, request_id2),
   FOREIGN KEY (request_id1) REFERENCES swoop.users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (request_id2) REFERENCES swoop.requests (request_id) ON DELETE CASCADE ON UPDATE CASCADE);

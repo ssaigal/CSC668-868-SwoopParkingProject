@@ -63,3 +63,30 @@ destination: {
  request_added: boolean, 
  request_id: int value
 }
+
+####Fetch all available 'swoops' within radius###
+
+##Request
+{
+ request_code: 3, 
+ latitude: 68.958360, 
+ longitude: 33.116242, 
+ radius: 5
+}
+
+##Response
+{
+ search_not_empty: boolean,
+ number_of_results: int value,
+ location_1:{
+             latitude:68.967575,
+             location_id:45,
+             longitude:33.087933
+            },
+ location_2:{
+             latitude:68.567575,
+             location_id:45,
+             longitude:33.0307933
+            },
+//etc etc etc......Should the search result return empty only 'search_not_empty: false' will be returned.             
+}
