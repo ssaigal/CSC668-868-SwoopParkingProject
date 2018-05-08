@@ -10,7 +10,7 @@ public class Main {
 		String json4 =  "{request_code: 3, latitude: 68.958360, longitude: 33.116242, radius: 5}";
 
 		//System.out.println(api.reciveAndRespond(json1));
-		//System.out.println(api.reciveAndRespond(json2));
+		System.out.println(api.reciveAndRespond(json2));
 		System.out.println(api.reciveAndRespond(json3));
 		System.out.println(api.reciveAndRespond(json4));
 		
