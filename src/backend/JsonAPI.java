@@ -31,16 +31,100 @@ public class JsonAPI {
 			return processAddPickUpRequest(jsonObject,con);
 		case 3:
 			return processViewPickUpRequests(jsonObject,con);
+		case 4:
+			return processAddWantParkingSpotRequest(jsonObject,con);
+		case 5:
+			return processViewWantParkingSpotRequests(jsonObject,con);	
 		default:
 			return "Request code not recognized. Unable to process request";
 		}
 	}
+	
+	private String processViewWantParkingSpotRequests(JSONObject jsonObject, Connection con) {
+		long time = System.currentTimeMillis();
+		System.out.println(time);
+		System.out.println(time / (1000*60*60));
+		String sql = "SELECT * FROM locations, requests WHERE locations.location_id = requests.destination AND"
+				+ "((" + time + " / (1000*60*60)) - (requests.time / (1000*60*60)))  < 4 AND"
+						+ " calculate_distance(double precision '" + jsonObject.getDouble("latitude") + "', "
+								+ "double precision '" + jsonObject.getDouble("longitude") + "',latitude,longitude) < 5 AND request_type = 4 AND request_status = 0";
+		ResultSet result = srs.fetchRows(sql,con);
+		JSONObject returnObject = new JSONObject();
+		JSONObject temp;
+		int incrementor = 0;
+		String json = "";
+		
+		try {
+			while(result.next()) {
+				incrementor++;
+				json = "{location_id: " + result.getInt("location_id") + ", latitude: " + result.getFloat("latitude") + ", longitude: " + result.getFloat("longitude") + "}";
+				temp = new JSONObject(json);
+				returnObject.put("location_" + incrementor, temp);
+			}
+				
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			returnObject.put("search_not_empty",false);
+			return returnObject.toString();
+		}
+		returnObject.put("search_not_empty",true);
+		returnObject.put("number_of_results",incrementor);
+		return returnObject.toString();
+	}
+	
+	
+	private String processAddWantParkingSpotRequest(JSONObject jsonObject, Connection con) {
+		JSONObject position = new JSONObject(jsonObject.getString("position"));
+		JSONObject destination = new JSONObject(jsonObject.getString("destination"));
+		
+		
+		String sql1 = "INSERT INTO locations (latitude, longitude) VALUES (" + position.getDouble("latitude") + ", " + position.getDouble("longitude") + ") RETURNING  location_id";
+		String sql2 = "INSERT INTO locations (latitude, longitude) VALUES (" + destination.getDouble("latitude") + ", " + destination.getDouble("longitude") + ") RETURNING  location_id";
+		
+		int position_id = 0;
+		int destination_id = 0;
+		int request_id = 0;
+		
+		String sql3 = "";
+		
+		try {
+			con.setAutoCommit(false);
+			position_id = srs.executeSQL(sql1,con);
+			destination_id = srs.executeSQL(sql2,con);
+			long time = System.currentTimeMillis();
+			
+			sql3 = "INSERT INTO requests (user_id, request_type, request_status, time, position, destination) VALUES (" + jsonObject.getInt("user_id") 
+			+ ", " + jsonObject.getInt("request_code") + ", 0, " + time + ",  " + position_id + ", " + destination_id + ") RETURNING request_id";
+			if(position_id != 0 && destination_id != 0) {
+				request_id = srs.executeSQL(sql3,con);
+			}else{
+				con.rollback();
+			}
+			
+			if(request_id != 0) {
+				
+				con.commit();
+			}else {
+				con.rollback();
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		if(position_id != 0 && destination_id != 0 && request_id != 0) {
+			return "{request_added: 'true', request_id: " + request_id + "}";
+		}else {
+			return "{request_added: 'false', request_id: " + request_id + "}}";
+		}		
+	}
+	
 
 	private String processViewPickUpRequests(JSONObject jsonObject, Connection con) {
 		long time = System.currentTimeMillis();
 		System.out.println(time);
 		System.out.println(time / (1000*60*60));
-		String sql = "SELECT * FROM locations, requests WHERE locations.location_id = requests.position AND"
+		String sql = "SELECT * FROM locations, requests WHERE locations.location_id = requests.destination AND"
 				+ "((" + time + " / (1000*60*60)) - (requests.time / (1000*60*60)))  < 4 AND"
 						+ " calculate_distance(double precision '" + jsonObject.getDouble("latitude") + "', "
 								+ "double precision '" + jsonObject.getDouble("longitude") + "',latitude,longitude) < 5 AND request_type = 2 AND request_status = 0";

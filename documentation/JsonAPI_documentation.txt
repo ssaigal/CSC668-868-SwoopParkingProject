@@ -53,7 +53,8 @@ Currently supported requests and their corresponding responses are outlined bell
 destination: {
             latitude: int value
             longitude: int value
-           }
+           } 
+           #The desitnation in this case should be where the users car is parked.
 }
 
 ##Response
@@ -69,6 +70,7 @@ destination: {
  request_code: 3, 
  latitude: 68.958360, 
  longitude: 33.116242
+ #The long & lat should respond to the users location. 
 }
 
 ##Response
@@ -85,5 +87,57 @@ destination: {
              location_id:45,
              longitude:33.0307933
             },
-//etc etc etc......Should the search result return empty only 'search_not_empty: false' will be returned.             
+#etc etc etc......Should the search result return empty only 'search_not_empty: false' will be returned.             
+}
+
+
+####Want parking spot request request####
+
+##Request
+{
+ request_code: 4,
+ user_id: int value,
+ position: {
+            latitude: int value
+            longitude: int value
+           },           
+destination: {
+            latitude: int value
+            longitude: int value
+           }
+           #The destination should respond to where the user wants to park. 
+}
+
+##Response
+{
+ request_added: boolean, 
+ request_id: int value
+}
+
+
+####Fetch all available want parking spot within radius###
+
+##Request
+{
+ request_code: 5, 
+ latitude: 68.958360, 
+ longitude: 33.116242
+ #The long & lat should respond to where the user is parked. 
+}
+
+##Response
+{
+ search_not_empty: boolean,
+ number_of_results: int value,
+ location_1:{
+             latitude:68.967575,
+             location_id:45,
+             longitude:33.087933
+            },
+ location_2:{
+             latitude:68.567575,
+             location_id:45,
+             longitude:33.0307933
+            },
+#etc etc etc......Should the search result return empty only 'search_not_empty: false' will be returned.             
 }

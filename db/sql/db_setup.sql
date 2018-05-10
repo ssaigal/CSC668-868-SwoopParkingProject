@@ -29,7 +29,7 @@ CREATE TABLE swoop.requests (
   request_status int NOT NULL, 	
   time BIGINT,
   position int NOT NULL,
-  destination int, 
+  destination int NOT NULL, 
   FOREIGN KEY (user_id) REFERENCES swoop.users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (position) REFERENCES swoop.locations (location_id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (destination) REFERENCES swoop.locations (location_id) ON DELETE CASCADE ON UPDATE CASCADE);
@@ -63,7 +63,7 @@ CREATE TABLE swoop.transactions (
   FOREIGN KEY (request_id1) REFERENCES swoop.users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (request_id2) REFERENCES swoop.requests (request_id) ON DELETE CASCADE ON UPDATE CASCADE);
   
-  -- FUNCTION: swoop.calculate_distance(double precision, double precision, double precision, double precision)
+-- FUNCTION: swoop.calculate_distance(double precision, double precision, double precision, double precision)
 
 -- DROP FUNCTION swoop.calculate_distance(double precision, double precision, double precision, double precision);
 
