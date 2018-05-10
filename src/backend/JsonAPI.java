@@ -43,7 +43,7 @@ public class JsonAPI {
 		String sql = "SELECT * FROM locations, requests WHERE locations.location_id = requests.position AND"
 				+ "((" + time + " / (1000*60*60)) - (requests.time / (1000*60*60)))  < 4 AND"
 						+ " calculate_distance(double precision '" + jsonObject.getDouble("latitude") + "', "
-								+ "double precision '" + jsonObject.getDouble("longitude") + "',latitude,longitude) < " + jsonObject.getInt("radius") + "";
+								+ "double precision '" + jsonObject.getDouble("longitude") + "',latitude,longitude) < 5 AND request_type = 2 AND request_status = 0";
 		ResultSet result = srs.fetchRows(sql,con);
 		JSONObject returnObject = new JSONObject();
 		JSONObject temp;
@@ -90,8 +90,8 @@ public class JsonAPI {
 			destination_id = srs.executeSQL(sql2,con);
 			long time = System.currentTimeMillis();
 			
-			sql3 = "INSERT INTO requests (user_id, request_type, radius, time, position, destination) VALUES (" + jsonObject.getInt("user_id") 
-			+ ", " + jsonObject.getInt("request_type") + ", " + jsonObject.getInt("radius") + ", " + time + ",  " + position_id + ", " + destination_id + ") RETURNING request_id";
+			sql3 = "INSERT INTO requests (user_id, request_type, request_status, time, position, destination) VALUES (" + jsonObject.getInt("user_id") 
+			+ ", " + jsonObject.getInt("request_code") + ", 0, " + time + ",  " + position_id + ", " + destination_id + ") RETURNING request_id";
 			if(position_id != 0 && destination_id != 0) {
 				request_id = srs.executeSQL(sql3,con);
 			}else{

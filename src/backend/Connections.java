@@ -10,8 +10,8 @@ import java.sql.Connection;
 //import org.json.*;
 
 public class Connections {
-	private final String url = "jdbc:postgresql://swoopdb.ccvexujwljki.us-west-1.rds.amazonaws.com/swoopdb?currentSchema=swoop";
-	private final String user = "isak";
+	private final String url = "jdbc:postgresql://swoop-db.ccvexujwljki.us-west-1.rds.amazonaws.com/swoop_db?currentSchema=swoop";
+	private final String user = "swooper";
 	private final String password = "NIb9NdGl5#QFz$J%XJQe";
 	
 	 public Connection connect() {
