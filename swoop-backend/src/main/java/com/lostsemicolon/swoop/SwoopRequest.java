@@ -9,12 +9,12 @@ import java.util.Date;
 
 public class SwoopRequest {
     @Id
-    @Column
+    @Column(name= "request_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int requestId;
-    @Column
+    @Column (name= "user_id")
     private int userId;
-    @Column
+    @Column(name= "request_type")
     private char requestType;
     @Column
     private int radius;

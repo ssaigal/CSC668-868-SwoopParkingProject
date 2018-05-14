@@ -37,4 +37,17 @@ public class UserController {
     public List<User> findAll(){
         return userService.findAll();
     }
+
+    @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
+    @RequestMapping(value = "/login")
+    public User findByName(@RequestParam("userName") String userName, @RequestParam("password") String password){
+        return userService.findByUName(userName, password);
+    }
+
+   /* @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public User findByName(@RequestParam("userName") String userName){
+        System.out.println("Username systemprint:" + userName);
+        return userService.findByUName(userName);
+    }*/
 }
