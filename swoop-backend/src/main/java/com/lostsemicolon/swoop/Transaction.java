@@ -71,7 +71,6 @@ public class Transaction {
     }
 
     public void setEndTime(long endTime) {
-        new Timestamp(endTime)
         this.endTime = endTime;
     }
 

@@ -12,7 +12,7 @@ public class SwoopRequest {
     @Column(name= "request_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int requestId;
-    @Column (name= "user_id")
+    @Column (name= "user_id", nullable = false, updatable = false)
     private int userId;
 
     @Column(name= "request_type")
@@ -35,6 +35,9 @@ public class SwoopRequest {
     @Column
     private double  park_long;
 
+   /* @OneToOne
+    @JoinColumn(name="id",nullable = false, updatable = false)
+    private User user;*/
 
     public int getRequestId() {
         return requestId;

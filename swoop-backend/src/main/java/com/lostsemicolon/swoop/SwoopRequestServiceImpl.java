@@ -39,4 +39,9 @@ public class SwoopRequestServiceImpl implements SwoopRequestService {
     public SwoopRequest update(SwoopRequest swoopRequest) {
         return null;
     }
+
+    @Override
+    public SwoopRequest findParkingSpotByRadius(long park_lat,long park_long,int radius) {
+        return repository.findParkingByRadius(park_lat,park_long,radius);
+    }
 }

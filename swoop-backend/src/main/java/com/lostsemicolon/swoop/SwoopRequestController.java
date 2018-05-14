@@ -37,4 +37,11 @@ public class SwoopRequestController {
     public List<SwoopRequest> findAll(){
         return swoopRequestService.findAll();
     }
+
+    @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
+    @RequestMapping(value = "/getParking")
+    public SwoopRequest findParkingByRadius(@RequestParam("park_lat") long park_lat, @RequestParam("park_long") long park_long, @RequestParam("radius") int radius){
+        return swoopRequestService.findParkingSpotByRadius(park_lat,park_long,radius);
+    }
+
 }
