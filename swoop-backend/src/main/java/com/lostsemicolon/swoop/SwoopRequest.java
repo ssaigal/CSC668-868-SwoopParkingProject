@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
-@Table(name = "requests")
+@Table(name = "request")
 
 public class SwoopRequest {
     @Id
@@ -14,19 +14,27 @@ public class SwoopRequest {
     private int requestId;
     @Column (name= "user_id")
     private int userId;
+
     @Column(name= "request_type")
-    private char requestType;
+    private int requestType;
+
+    @Column(name= "request_status")
+    private int requestStatus;
     @Column
     private int radius;
+    @Column
+    private long time;
 
     @Column
-    private int time;
-
+    private double  cur_lat;
+    @Column
+    private double  cur_long;
+    @Column
+    private double  park_lat;
 
     @Column
-    private int  position;
-    @Column
-    private int  destination;
+    private double  park_long;
+
 
     public int getRequestId() {
         return requestId;
@@ -44,12 +52,20 @@ public class SwoopRequest {
         this.userId = userId;
     }
 
-    public char getRequestType() {
+    public int getRequestType() {
         return requestType;
     }
 
-    public void setRequestType(char requestType) {
+    public void setRequestType(int requestType) {
         this.requestType = requestType;
+    }
+
+    public int getRequestStatus() {
+        return requestStatus;
+    }
+
+    public void setRequestStatus(int requestStatus) {
+        this.requestStatus = requestStatus;
     }
 
     public int getRadius() {
@@ -60,28 +76,43 @@ public class SwoopRequest {
         this.radius = radius;
     }
 
-    public int getTime() {
+    public long getTime() {
         return time;
     }
 
-    public void setTime(int time) {
-        this.time = time;
+    public void setTime(long time) {
+        long currentTime = System.currentTimeMillis();
+        this.time = currentTime;
+    }
+    public double getCur_lat() {
+        return cur_lat;
     }
 
-    public int getPosition() {
-        return position;
+    public void setCur_lat(double cur_lat) {
+        this.cur_lat = cur_lat;
     }
 
-    public void setPosition(int position) {
-        this.position = position;
+    public double getCur_long() {
+        return cur_long;
     }
 
-    public int getDestination() {
-        return destination;
+    public void setCur_long(double cur_long) {
+        this.cur_long = cur_long;
     }
 
-    public void setDestination(int destination) {
-        this.destination = destination;
+    public double getPark_lat() {
+        return park_lat;
     }
 
+    public void setPark_lat(double park_lat) {
+        this.park_lat = park_lat;
+    }
+
+    public double getPark_long() {
+        return park_long;
+    }
+
+    public void setPark_long(double park_long) {
+        this.park_long = park_long;
+    }
 }
