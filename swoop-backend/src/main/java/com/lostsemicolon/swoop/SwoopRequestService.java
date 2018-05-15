@@ -14,5 +14,7 @@ public interface SwoopRequestService {
 
     SwoopRequest update(SwoopRequest swoopRequest);
 
-    SwoopRequest findParkingSpotByRadius(long park_lat,long park_long,int radius);
+    SwoopRequest findParkingSpotByRadius(double park_lat,double park_long,int radius);
+
+    SwoopRequest swapParkingSpotByRadius(double cur_lat,double cur_long,int radius);
 }

@@ -40,8 +40,12 @@ public class SwoopRequestController {
 
     @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
     @RequestMapping(value = "/getParking")
-    public SwoopRequest findParkingByRadius(@RequestParam("park_lat") long park_lat, @RequestParam("park_long") long park_long, @RequestParam("radius") int radius){
+    public SwoopRequest findParkingByRadius(@RequestParam("park_lat") double park_lat, @RequestParam("park_long") double park_long, @RequestParam("radius") int radius){
         return swoopRequestService.findParkingSpotByRadius(park_lat,park_long,radius);
     }
 
+    @RequestMapping(value = "/swapParking")
+    public SwoopRequest swapParkingByRadius(@RequestParam("cur_lat") double cur_lat, @RequestParam("cur_long") double cur_long, @RequestParam("radius") int radius){
+        return swoopRequestService.swapParkingSpotByRadius(cur_lat,cur_long,radius);
+    }
 }
