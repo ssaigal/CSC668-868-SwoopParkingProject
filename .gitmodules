@@ -1,0 +1,3 @@
+[submodule "Swoop-FrontEnd"]
+	path = Swoop-FrontEnd
+	url = https://github.com/AlaricGonzales/CSC-868-Swoop.git
