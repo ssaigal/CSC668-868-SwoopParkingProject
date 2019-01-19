@@ -12,6 +12,7 @@ public class SwoopRequest {
     @Column(name= "request_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int requestId;
+
     @Column (name= "user_id", nullable = false, updatable = false)
     private int userId;
 
@@ -20,15 +21,19 @@ public class SwoopRequest {
 
     @Column(name= "request_status")
     private int requestStatus;
+
     @Column
     private int radius;
+
     @Column
     private long time;
 
     @Column
     private double  cur_lat;
+
     @Column
     private double  cur_long;
+
     @Column
     private double  park_lat;
 
